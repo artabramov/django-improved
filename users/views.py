@@ -4,12 +4,12 @@ from django.shortcuts import render, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import auth
 from django.contrib import messages
-from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
+from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm, UserProfileEditForm
 from baskets.models import Basket
 from django.core.mail import send_mail
 from django.conf import settings
 from users.models import User
-
+from django.db import transaction
 
 # Create your views here.
 def login(request):
@@ -69,22 +69,26 @@ def logout(request):
     auth.logout(request)
     return HttpResponseRedirect(reverse('index'))
 
-
+@transaction.atomic
 @login_required
 def profile(request):
     if request.method == 'POST':
         form = UserProfileForm(instance=request.user, data=request.POST, files=request.FILES)
-        if form.is_valid:
+        edit_form = UserProfileEditForm(instance=request.user.userprofile, data=request.POST)
+        if form.is_valid and edit_form.is_valid:
             form.save()
+            #edit_form.save()
             return HttpResponseRedirect(reverse('users:profile'))
     else:
         form = UserProfileForm(instance=request.user)
+        edit_form = UserProfileEditForm(instance=request.user.userprofile)
 
     context = {
         'title': 'Geekshop - User profile',
         'description': 'User profile description',
         #'baskets': Basket.objects.filter(user=request.user),
         'form': form,
+        'edit_form': edit_form,
     }
     return render(request, 'users/profile.html', context)
 

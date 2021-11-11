@@ -7,4 +7,7 @@ def basket(request):
     if request.user.is_authenticated:
         result = {'baskets': Basket.objects.filter(user=request.user),}
 
-    return {'baskets': []} if not result else result
+    else:
+        result = {'baskets': []}
+
+    return result
