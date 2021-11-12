@@ -4,6 +4,7 @@ media/
 geekshop/__pycache__/
 geekshop/.env
 users/__pycache__/
+orders/__pycache__/
 users/management/__pycache__/
 users/management/commands/__pycache__/
 users/migrations/__pycache__/
