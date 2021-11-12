@@ -1,0 +1,1 @@
+[{"model": "products.productcategory", "pk": 1, "fields": {"name": "Cloth", "description": "Cloth category description"}}, {"model": "products.productcategory", "pk": 2, "fields": {"name": "Shoes", "description": "Shoes category description"}}, {"model": "products.productcategory", "pk": 3, "fields": {"name": "Accessories", "description": "Accessories category description"}}]
