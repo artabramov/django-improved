@@ -21,6 +21,7 @@ def login(request):
             password = request.POST['password']
             user = auth.authenticate(username=username, password=password)
             if user and user.is_active:
+                #auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 auth.login(request, user)
                 return HttpResponseRedirect(reverse('index'))
         else:
