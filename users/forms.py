@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django.forms.widgets import PasswordInput, TextInput, EmailInput
-from users.models import User
+from users.models import User, UserProfile
 
 class UserLoginForm(AuthenticationForm):
     username = forms.CharField(widget=TextInput(attrs={
@@ -77,3 +77,13 @@ class UserProfileForm(UserChangeForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'first_name', 'last_name', 'image')
+
+class UserProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('tags', 'bio', 'gender')
+
+    def __init__(self, *args, **kwargs):
+        super(UserProfileEditForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
