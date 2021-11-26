@@ -22,3 +22,8 @@ class Basket(models.Model):
     def total_quantity(self):
         baskets = Basket.objects.filter(user=self.user)
         return sum(basket.quantity for basket in baskets)
+
+    @staticmethod
+    def get_item(pk):
+        return Basket.objects.filter(pk=pk).first()
+        
